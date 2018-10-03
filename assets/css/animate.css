@@ -1,0 +1,45 @@
+/* START of SLIDE to from left animation */
+
+@keyframes my-animation {
+    from {
+      opacity : 0;
+      left : -500px;
+    }
+    to {
+      opacity : 1;
+      left : 0;
+    }
+  }
+
+  .run-animation {
+    position: relative;
+    animation: my-animation 3s ease;
+  }
+/* END of SLIDE to from left animation */
+
+
+
+
+.logoanimation {
+  position: relative;
+  -webkit-animation: myfirst 5s linear 2s infinite alternate; /* Safari 4.0 - 8.0 */
+  animation: myfirst 5s linear 2s infinite alternate;
+  }
+
+  /* Safari 4.0 - 8.0 */
+  @-webkit-keyframes myfirst {
+  0%   {  left:0px; top:0px;}
+  25%  {  left:50px; top:0px;}
+  50%  {  left:50px; top:50px;}
+  75%  {  left:0px; top:50px;}
+  100% {  left:0px; top:0px;}
+  }
+
+  /* Standard syntax */
+  @keyframes myfirst {
+  0%   {  left:0px; top:0px;}
+  25%  { left:50px; top:0px;}
+  50%  { left:50px; top:50px;}
+  75%  { left:0px; top:50px;}
+  100% { left:0px; top:0px;}
+  }
