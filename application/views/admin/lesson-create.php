@@ -110,13 +110,13 @@
                              <div class="form-group">
 
                                  <div class="col-md-4">
-                                     <!-- <div class="form-group form-md-line-input">
-                                         <input type="text" class="form-control " id="form_control_1" name="lessonidEx[]" value="<?php //echo $value?>">
-                                         <input type="hidden" name="lessonidEx[]" />
+                                     <div class="form-group form-md-line-input">
+                                         <input type="text" class="form-control " id="form_control_1" name="lessonEx[]" value="<?php //echo $value?>">
+                                   
 
                                          <label for="form_control_1">Example Name</label> <br>
                                          <span class="help-block">Some help goes here...</span>
-                                     </div> -->
+                                     </div>
                                   </div>
                                  <div class="col-md-4">
                                      <input type="text" class="form-control input-inline input-medium imgEx<?php echo $count?>" name="imgEx[]">
@@ -125,9 +125,7 @@
 
 
                                      <span class="help-inline"><a class="select_img" id="<?php echo $count?>"  data-toggle="modal" href="#static">Upload or select image.</a></span>
-
                                  </div>
-
                              </div>
                              <?php
                            $count++;

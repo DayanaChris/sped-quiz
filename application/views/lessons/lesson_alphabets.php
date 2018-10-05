@@ -1,5 +1,5 @@
 <body class="run-animation Alphabet_bg" >
-  <a href="<?php echo base_url(); ?>lessons/submenu_alphabets "> <img class="btn zoom  container float-left  card-img-top img-fluid    "  src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lessons/Alphabet/left.png"   /></a>
+  <a href="<?php echo base_url(); ?>lessons/category/<?php echo $id?> "> <img class="btn zoom  container float-left  card-img-top img-fluid    "  src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lessons/Alphabet/left.png"   /></a>
 
           <a href="<?php echo base_url(); ?>lessons/lesson_vowels "> <img class="btn zoom  container float-right card-img-top img-fluid   "  src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_change.png"   /></a>
 
@@ -25,20 +25,20 @@
                            <!-- LESSON IMAGES  -->
                           <div class="d-inline" data-toggle="modal" data-target="#myModal">
                                  <?php
+                                 $num_pages= count($images->result());
+                                 // for ($i=0; $i <$num_pages ; $i++) {
                                  foreach ($images->result() as $key => $value) {
                                  ?>
-                                   <a href="#carousel-example-generic" data-slide-to="<?php echo $count?>">
+                                   <a  href="#carousel-example-generic" data-slide-to="<?php echo $count; ?>">
                                      <img  class=" letter   center zoom card-img-top img-fluid marg0"
-                                     src="<?php echo base_url()?>assets/uploads/<?php echo $value->img_name?>"  ></a>
-                                     <?php echo $value->img_name?>
-
+                                     src="<?php echo base_url()?>assets/uploads/<?php echo $value->img_name?>"  >
+                                   </a>
                                  <?php
+                                 $count+=2;
                                  }
-                                 $count++;
                                  ?>
                           </div>
                           <!-- END OF LESSON IMAGES  -->
-
 
 
                           <div class="container-fluid">
@@ -48,73 +48,50 @@
                                   <div class="modal-content " style=" background: transparent;" >
                                     <div class="modal-header" style="margin-top: 20px" >
                                         <!-- mag animate -->
-                                          <a href="<?php echo base_url(); ?>lessons/lesson_actionwords " class="fixed-top" style="margin-right: 10px"> <img class="zoom  container float-right card-img-top img-fluid   " style=" width: 90px;
+                                          <a href="<?php echo base_url(); ?>lesson/<?php echo $id?>" class="fixed-top" style="margin-right: 10px">
+                                            <img class="zoom  container float-right card-img-top img-fluid   " style=" width: 90px;
                                               margin-right: 0px;
                                               border: 0;
                                               background: transparent; " src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lesson/Alphabets/_Lessons/A/close_button.png"   /></a>
                                     </div>
-                                        <!--  data-interval="false" dont go to the next page automatically  -->
+
+                                    <?php
+                                    print_r($example);
+                                    exit();
+                                    if($example->num_rows() > 0){
+
+                                      ?>
                                       <div id="carousel-example-generic" class="carousel slide actionwords_bg " data-interval="false">
-                                          <!-- Wrapper for slides -->
-                                          <!-- Wrapper for slides -->
                                            <div class="carousel-inner  " role="listbox">
                                              <?php
-                                             if($example->num_rows() > 0){
-                                               ?>
+                                             $num_pages= count($example->result())/2;
+                                             $examples= $example->result();
+                                             $count=0;
+                                             for ($i=0; $i <$num_pages ; $i++) {
 
+                                             // foreach ($example->result() as $key => $values) {
+                                             ?>
 
-
-
-                                              <div class="item active color_black" >
-                                                <div>
-                                                      <div  >
-                                                        <img   class=" mx-auto d-block letterA" src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lesson/Colors/_Lessons/COLOR_BLACK.png"  alt="Letter A"  >
-                                                      </div>
-                                                      <div class="row">
-                                                              <div class="col-sm-6  " style="margin-top:0%"> <img class=" mx-auto d-block" style="width:60%" src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lesson/Colors/_Lessons/black_ink.png"  alt="black book"  > </div>
-                                                             <div class="col-sm-6   " style="margin-top:0%" >   <img class=" mx-auto d-block" style="width:60%" src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lesson/Colors/_Lessons/black_eagle.png"  alt="Letter A" > </div>
-                                                      </div>
-
-                                                      <div class="row">
-                                                              <div class="col-sm-6  " style="margin-top:0%">
-                                                               <h1 class="centered">INK</h1>
-                                                             </div>
-                                                             <div class="col-sm-6   " style="margin-top:0%" >
-                                                               <h1 class="centered">EAGLE</h1>
-                                                             </div>
-                                                      </div>
-                                                </div>
-                                                <br><br> <br>
-                                              </div>
-
-
-                                              <div class="item "  >
+                                              <div class="item <?php $count==0?"active":""; ?>  " id="<?php echo $i; ?> "  >
                                                 <div>
                                                       <div class="text-center">
 
                                                               <h1 class="font-weight-bold"> <big>  <h1><?php echo $que->lesson_name?></h1> </big> </h1>
                                                       </div>
                                                       <div class="row">
-
-                                                              <?php
-                                                              foreach ($example->result() as $key => $values) {
-                                                              ?>
                                                               <div class="col-sm-6  " style="margin-top:0%">
-                                                                <img class=" mx-auto d-block" style="width:60%" src="<?php echo base_url()?>assets/uploads/<?php echo $values->img_name?>"  alt="Letter A"  >
+                                                                <img class=" mx-auto d-block" style="width:60%" src="<?php echo base_url()?>assets/uploads/<?php echo $examples[$count]->img_name?>"  alt="Letter A"  >
                                                               </div>
-                                                              <?php
-                                                              }
-                                                              ?>
-
 
                                                       </div>
                                                 </div>
                                               </div>
+
                                               <?php
-                                            }else {
-                                              echo "NO EXAMPLE FOUND.....";
-                                            }
+                                              $count++;
+                                              }
                                               ?>
+
 
                                             </div>
                                                       <!-- Controls -->
@@ -125,6 +102,12 @@
                                               <span class="glyphicon glyphicon-chevron-right"></span>
                                             </a>
                                         </div>
+
+                                        <?php
+                                      }else {
+                                        echo "NO EXAMPLE FOUND.....";
+                                      }
+                                        ?>
                                   </div>
                               </div>
                             </div>

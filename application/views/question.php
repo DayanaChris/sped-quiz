@@ -1,22 +1,19 @@
 <?php $this->load->view('templates/temp_alphabets');  ?>
+<body class="">
+
+
+
+<div class="container float-right" id="clock" >
+
+</div>
+  <!-- <a href="<?php echo base_url(); ?>lessons/lesson_alphabets  "> <img class="btn zoom  container float-right card-img-top img-fluid   "  src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_change.png"   /></a> -->
+
 
       <?php
 
 
-      // print_r($question);
-      // exit();
-
       if($question->num_rows() > 0){
-        // $que = $question->row();
-        // $get_temp = $que->template_num;
-        // $bg = $que->background;
 
-        // $ques = $question_image->row();
-
-
-        // $get_temp = $this->query->get_template();
-
-        // $get_answer = $this->query->get_answer($que->quizID);
       ?>
 
       <!-- <div class="">
@@ -28,7 +25,6 @@
     		</pre>
     	</div> -->
 
-      <body class="run-animation">
 
         <?php
         // TEMPLATE 1
@@ -53,14 +49,16 @@
               $display="display:none;";
              else $display="display:block;"
              ?>
-             <div  id="<?php echo $count; ?>"  style="<?php echo $display; ?> width:100%; height:100%; background:#<?php echo $q->background?>">
-                 <div class="container">
+             <div  class="" id="<?php echo $count; ?>"  style="<?php echo $display; ?>   background:#<?php echo $q->background?> no-repeat fixed center; ">
+               <div class="run-animation">
+
+                 <div class="container ">
                          <img  src="<?php echo site_url(); ?>assets/images/SPEDEMY/Lessons/Alphabet/A/head.png" style="width:80%; margin-top:2%">
                          <div class="centered_text">
                                  <h1 class="font-weight-bold"> <big>  <h1><?php echo $q->question?></h1> </big> </h1>
                          </div>
                  </div>
-                 <div class="container">
+                 <div class="container run-animation ">
                    <div class="row">
                      <div class="col  " style="margin-top:0%">
                          <div class="col  " style="margin-top:5%">
@@ -70,7 +68,7 @@
                    </div>
                  </div>
 
-                  <div class="container-fluid">
+                  <div class="container-fluid run-animation">
                     <div class="row">
                       <?php
                       if($get_answer->num_rows() > 0){
@@ -96,6 +94,8 @@
 
                   </div>
                </div>
+             </div>
+
              <?php
              $count++;
            }
@@ -176,6 +176,17 @@
 
         </div>
       </div>
+    </div>
+    <div class="hidden" id="score">
+      0
+    </div>
+
+    <div class="hidden" id="attempt">
+      0
+    </div>
+
+    <div class="" id="total_time" style="display:none">
+
     </div>
 
 <style>

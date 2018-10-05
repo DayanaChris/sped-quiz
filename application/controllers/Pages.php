@@ -4,6 +4,8 @@
 
     public function levels($id){
       $data = array(
+        'id' => $id,
+
         'level' => $this->db->get_where('level'),
         'category_id' => $id,
 

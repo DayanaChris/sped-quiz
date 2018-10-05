@@ -1,9 +1,10 @@
 <?php $this->load->view('templates/temp_alphabets');  ?>
 <body class="learn_alphabets run-animation">
+  <script src="<?php echo base_url(); ?>assets/script.js"></script>
 
 
 
-        <a href="<?php echo base_url(); ?>category_menu "> <img class="zoom  container float-left card-img-top img-fluid   " style=" width: 15%;
+        <a href="<?php echo base_url(); ?>lessons/category/<?php echo $id?> "> <img class="zoom  container float-left card-img-top img-fluid   " style=" width: 15%;
             padding: 10px;
             margin-top: 0px;
             margin-bottom: 20px;

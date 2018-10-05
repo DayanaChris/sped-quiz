@@ -1,5 +1,12 @@
+var start_time="";
+var end_time="";
+var total_time=0;
+
+
 $(document).ready(function() {
 	"use strict";
+
+	set_start_time();
 	var url = $('.base_url').html();
 	var loader = 'Loading';
 	$('.delete_category').click(function(e){
@@ -91,6 +98,41 @@ $(document).ready(function() {
 		  }
 		});
 	});
+
+
+
+
+	$('.delete_lesson').click(function(e){
+		e.preventDefault();
+		var id_lesson = this.id;
+		swal({
+			title: "Delete Lesson?",
+			text: "Are you sure you want to delete this Lesson?",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+					$.ajax({
+					url : url+"lessons/post",
+					type : 'POST',
+					data : {
+						'delete_lesson': id_lesson
+					},
+					success : function() {
+						$('.delete-'+id_lesson).fadeOut();
+						swal("Poof! Lesson successfully deleted!", {
+							icon: "success",
+						});
+					}
+				});
+
+			}
+		});
+	});
+
+
 
 	$('.select_img').click(function(){
 		var id = this.id;
@@ -253,42 +295,110 @@ $(document).ready(function() {
 			data : {
 				'check_question': answer
 			},
+
+
+
 			success : function(response) {
 				console.log(response);
-				var current='#'+question_number;
-				var next='#'+(parseInt(question_number,10)+1);
-				console.log(current);
-				console.log(next);
-				// $(id).css('display:none;');
-				$(current).css('display:none;');
-				$(next).css('display:block;');
-				$(current).hide();
-				$(next).show();
-				$('.modal-body').html(response);
-			},
-		});
+				var score=parseInt($('#score').html(),10);
+				var attempt=parseInt($('#attempt').html(),10);
 
+				if(score==""){
+					score=0;
+
+				}
+
+				if(attempt==""){
+					attempt=0;
+
+				}
+
+
+
+
+
+
+
+
+
+
+
+				// IF CORRECT ANSWER
+				if(response.includes("great")){
+
+					var current='#'+question_number;
+					var next='#'+(parseInt(question_number,10)+1);
+					console.log(current);
+					console.log(next);
+
+					if(parseInt(question_number)>=4){
+						set_end_time();
+
+					 	get_total_time();
+						console.log("total time"+total_time);
+
+						$('#total_time').css('display:block;');
+
+					}
+
+
+					// $(id).css('display:none;');
+					$(current).css('display:none;');
+					$(next).css('display:block;');
+					$(current).hide();
+					$(next).show();
+					$('.modal-body').html(response);
+
+					score++;
+					console.log("SCORE "+score);
+
+					$('#score').html(score);
+
+
+
+			}else if(!response.includes("great")){
+				// display to
+				$('.modal-body').html("<img src=\"../../assets/images/wrong.png\">");
+
+				attempt++;
+				console.log("ATTEMPT",attempt);
+				$('#attempt').html(attempt);
+			}
+		},
+		});
 	});
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
+
+
+function set_start_time(){
+	start_time= new Date();
+	console.log(start_time);
+
+
+}
+
+
+function set_end_time(){
+	end_time= new Date();
+
+	console.log(end_time);
+
+
+}
+
+
+function get_total_time(){
+
+	  total_time = new Date(end_time - start_time);
+	  total_time= total_time/1000;
+
+	  console.log("total time"+total_time);
+	  $("#total_time").html(total_time);
+
+}
+
+
 // END OF SCRIPT

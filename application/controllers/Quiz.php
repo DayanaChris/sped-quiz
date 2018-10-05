@@ -17,7 +17,6 @@ class Quiz extends CI_Controller {
 	}
 
 
-
 	public function index()
 	{
 		if (!$this->ion_auth->logged_in())
@@ -81,82 +80,6 @@ class Quiz extends CI_Controller {
 
 
 	}
-
-	public function mod1_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'img' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/mod1_quiz',$data);
-	}
-	public function mod2_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'question_image' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/mod2_quiz',$data);
-	}
-	public function temp7_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'question_image' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/temp7_quiz',$data);
-	}
-
-	public function temp4_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'question_image' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/temp4_quiz',$data);
-	}
-	public function dif1_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'question_image' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/dif1_quiz',$data);
-	}
-
-	public function temp2_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'question_image' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/temp2_quiz',$data);
-	}
-
-	public function temp1_quiz($category_id, $level_id)
-	{
-		$data = array(
-			'question' => $this->query->questioner($level_id,$category_id),
-			'question_image' => $this->query->questioner($level_id,$category_id),
-
-		);
-		$this->load->view('templates/temp_lessons');
-		$this->load->view('quiz/temp1_quiz',$data);
-	}
-
-
 
 
 
@@ -239,6 +162,71 @@ class Quiz extends CI_Controller {
 
 		}
 	}
+
+	public function edit()
+	{
+
+		// IF THE ANSWER IS CORRECT IT WILL DISPLAY THE MODAL
+		if(isset($_POST['check_question'])){
+			if($_POST['check_question'] == 0){
+					echo 'error';
+			}else{
+					$this->load->view('answer');
+
+			}
+		}
+
+		if(isset($_POST['question'])){
+			$attr = array(
+				'question' => $_POST['question'],
+				'category_id' => $_POST['category_id'],
+				'question_image' => $_POST['question_image'],
+				'background' => $_POST['background'],
+				'template_num' => $_POST['template_num'],
+
+				'level_id' => $_POST['level_id'],
+				'time' => $_POST['timepic']
+			);
+			$this->db->where('id', $this->input->post('id'));
+			return $this->db->update('lesson', $data);
+
+
+			// default value, pag ang i click sa radio button mao to ang correct answer then ma change ang value to 1
+			$count = 0;
+			$answr = $_POST['answer'][0];
+			foreach($_POST['imgid'] as $img){
+				if($count == $answr){
+					$ans = 1;
+				}else{
+					$ans = 0;
+				}
+
+				$attr = array(
+					'quiz_id' => $lastid,
+					'img_id' => $img,
+					'is_correct' =>$ans
+				);
+
+				$count++;
+			$this->db->insert('quiz_image', $attr);
+			}
+
+			redirect(base_url().'quiz');
+
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 // from post function,
 		public function c_answer()

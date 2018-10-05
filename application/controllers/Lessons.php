@@ -17,7 +17,7 @@
 
 
 
-  	public function index()
+  	public function lesson_menu()
   	{
   		if (!$this->ion_auth->logged_in())
   		{
@@ -36,15 +36,16 @@
 
 
         $data = array(
-    			'category' => $this->db->order_by('id', 'asc')->get_where('category')
+    			'category' => $this->db->order_by('id', 'asc')->get_where('category'),
+          // 'category' => $this->db->order_by('id', 'asc')->get_where('category')
+          'lesson' => $this->lesson->lesson_table(),
+
     		);
     		$this->load->view('admin/lesson',$data);
   		}
   	}
 
-    public function lesson_menu(){
-      $this->load->view('admin/lesson');
-    }
+
 
 // FOR LESSON
     public function index2()
@@ -110,24 +111,13 @@
 
     public function category($id){
       $data = array(
-        'id' => $id
+        'id' => $id,
+        'cat' => $this->category->cat_title($id)
+
       );
       $this->load->view('templates/temp_lessons');
       $this->load->view('lessons/submenu_numbers', $data );
     }
-
-
-    // public function lesson(){
-    //   $data = array(
-    //     'id' => $id
-    //   );
-    //   $this->load->view('templates/temp_lessons');
-    //   $this->load->view('lessons/lesson_numbers', $data );
-    //
-    //   // $this->load->view('lessons/submenu_numbers', $data );
-    //
-    //
-    // }
 
 
     public function lesson($id){
@@ -143,9 +133,9 @@
       $data = array(
         'id' => $id,
         // 'template_num' => $this->query->get_template(),
-        'lesimg' => $this->query->display_lesson_image($id),
-        'images' => $this->query->display_lesson_image($id),
-        'example' => $this->query->display_lesson_example_image($id),
+        'lesimg' => $this->lesson->display_lesson_image($id),
+        'images' => $this->lesson->display_lesson_image($id),
+        'example' => $this->lesson->display_lesson_example_image(),
 
 
       );
@@ -224,8 +214,8 @@
 
                   $data = array(
                     'template_num' => $this->query->get_template(),
-                    'lesimg' => $this->query->lessons_display($cat),
-                    'question_image' => $this->query->lessons_display($cat),
+                    'lesimg' => $this->lesson->lessons_display($cat),
+                    'question_image' => $this->lesson->lessons_display($cat),
 
                   );
                   $this->load->view('templates/temp_alphabets');
@@ -369,7 +359,9 @@
 
     public function post()
   	{
-
+      if(isset($_POST['delete_lesson'])){
+        $this->lesson->delete_lesson($_POST['delete_lesson']);
+      }
   		if(isset($_POST['cat_id'])){
   			$attr = array(
           'user_id' => $this->user_id,
@@ -410,27 +402,29 @@
         //   print $code . 'is your Id code and ' . $names[$index] . 'is your name';
         // }
 
+        $imgEx= $_POST['imgEx'];
+        $lessonEx= $_POST['lessonEx'];
+
+// print_r($imgEx);
+// print_r($lessonEx);
+// exit();
         // INSERT TO LESSON EXAMPLE
-        foreach($_POST['imgidEx'] as $imgEx){
-         // && ($_POST['lessonidEx'] as $lessonEx ){
-
-
-        // INSERT TO LESSON EXAMPLE TABLE
-          //if($count == )
-
-
-          // if( )
+        foreach($imgEx as $index=> $imgE){
           $attr_ex = array(
             'lesson_id' => $lastid,
-            'img_id' => $imgEx
-            // 'lesson_example_name' => $lessonEx
+            'img_id' => $imgE,
+            'lesson_example_name' => $lessonEx[$index],
           );
+
 
         $this->db->insert('lesson_example', $attr_ex);
         $lastid_lesson_ex = $this->db->insert_id();
 
 
         }
+
+
+
 
 
 

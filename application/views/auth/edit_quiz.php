@@ -1,5 +1,7 @@
 <?php $this->load->view('admin/inc/top');?>
- <form role="form" method="post" action="<?php echo base_url()?>quiz/post">
+ <form role="form" method="post" action="<?php echo base_url()?>quiz/edit">
+   <input type="hidden" name="id" value="<?php echo $post['id']; ?>">
+
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption font-red-sunglo">
@@ -13,7 +15,7 @@
             <div class="form-body">
             <div class="col-md-8">
                 <div class="form-group form-md-line-input">
-                    <input type="text" class="form-control" id="form_control_1" name="question" value="<?php //echo $value?>">
+                    <input type="text" class="form-control" id="form_control_1" name="question" value="<?php echo $post['question']; ?>">
                     <label for="form_control_1">Question</label>
                     <span class="help-block">Some help goes here...</span>
                 </div>

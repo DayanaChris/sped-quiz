@@ -13,13 +13,7 @@ class Query_model extends CI_Model
 		$this->db->delete('quiz_image', array('quiz_id' => $id));
 	}
 
-	public function delete_lesson($id){
-		$this->db->delete('lesson', array('id' => $id));
-		$this->db->delete('lesson_image', array('lesson_id' => $id));
-		$this->db->delete('lesson_example', array('lesson_id' => $id));
-		$this->db->delete('lesson_manager', array('lesson_image_id' => $id),array('lesson_example_id' => $id) );
 
-	}
 
 	public function quiz_cat(){
 		$query = $this->db->select('*, quiz.id as quizID')
@@ -29,6 +23,22 @@ class Query_model extends CI_Model
 				->get();
 		return $query;
 	}
+
+
+
+
+	// public function lesson(){
+	// 	$query = $this->db->select('*, quiz.id as quizID')
+	// 			->from('lesso')
+	// 			->join('category', 'quiz.category_id = category.id')
+	// 			->join('level', 'quiz.level_id = level.id')
+	// 			->get();
+	// 	return $query;
+	// }
+
+
+
+
 
 	public function questioner($id, $catId){
 		$qury = $this->db->select('*,template_num,background, quiz.id as quizID')
@@ -43,20 +53,7 @@ class Query_model extends CI_Model
 	return $qury;
 	}
 
-	public function lessons_display( $catId){
-		$qury = $this->db->select('*, template_num,category.category_image_title ,lesson.id as lessonID')
-										 ->from('lesson')
-										 ->join('lesson_image', 'lesson.id = lesson_image.lesson_id')
-										 ->join('lesson_example', 'lesson.id = lesson_example.lesson_id' )
-										 ->join('lesson_manager', 'lesson_image.id = lesson_manager.lesson_image_id' ,
-										 'AND', 'lesson_example.id = lesson_manager.lesson_example_id')
 
-										 // ->join('lesson_manager', 'lesson_example.id = lesson_manager.lesson_example_id')
-										 ->join('category', 'category.id = lesson.cat_id')
-										 ->where('lesson.cat_id', $catId)
-										 ->get();
-										 return $qury;
-	}
 
 	public function get_answer($id){
 		$query = $this->db->select()
@@ -69,34 +66,21 @@ class Query_model extends CI_Model
 	}
 
 
-	public function display_lesson_image($id){
-		$query = $this->db->select()
-									 		 ->from('lesson_image')
-											 ->join('images', 'lesson_image.img_id = images.id')
-											 ->join('lesson', 'lesson.id = lesson_image.id')
 
-											 ->join('category', 'category.id = lesson.cat_id')
 
-											 ->where('lesson.cat_id', $id)
 
-											 ->get();
-			return $query;
+
+	public function get_template(){
+		$query = $this->db->select('template_num')
+		->from('quiz')
+		->get();
+
+		return $query;
 	}
 
 
-	public function display_lesson_example_image($id){
-		$query = $this->db->select()
-									 		 ->from('lesson_example')
-											 ->join('images', 'lesson_example.img_id = images.id')
-											 // ->join('lesson', 'lesson.id = lesson_example.id')
 
-											 // ->join('category', 'category.id = lesson.cat_id')
 
-											 ->where('lesson_example.lesson_id', $id)
-
-											 ->get();
-			return $query;
-	}
 	//
 	// SELECT * from `lesson_example`
 	// join images on lesson_example.img_id = images.id
@@ -182,14 +166,6 @@ class Query_model extends CI_Model
 	// where lesson_manager.lesson_image_id= lesson_image.id and lesson.cat_id=4
 
 
-
-	public function get_template(){
-		$query = $this->db->select('template_num')
-											 ->from('quiz')
-											 ->get();
-
-			return $query;
-	}
 
 
 

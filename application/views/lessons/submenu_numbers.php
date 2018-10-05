@@ -10,15 +10,39 @@
             background: transparent; " src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/Menu_button.png"   /></a>
 
                 <div  id="logo" class=" container " style=" margin-top: 0%;margin-bottom: 0%; " >
-                        <div class="container">
-                            <br>
-                             <img  class="container logoanimation  pad log"  src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/logo_<?php echo $id?>.png"   >
-                             <div class="row ">
-                               <!-- <div class="col-sm-6   "  ><a href="<?php echo base_url(); ?>lessons/lesson_numbers"> <img class="card-img-top img-fluid zoom btn center"   src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_lesson.png" alt="Card image cap"></a> </div> -->
 
-                                    <div class="col-sm-6   "  ><a href="<?php echo base_url(); ?>lesson/<?php echo $id?> "> <img class="card-img-top img-fluid zoom btn center"   src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_lesson.png" alt="Card image cap"></a> </div>
-                                    <div class="col-sm-6  " ><a href="<?php echo base_url(); ?>levels/<?php echo $id?> "><img class="card-img-top img-fluid zoom btn center"   src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_quiz.png" alt="Card image cap"></a> </div>
-                            </div>
+                  <?php
+                  if($cat->num_rows() > 0){
+                    $cats = $cat->row();
+
+                    ?>
+                    <div class="container">
+                        <br>
+
+                    <img class="container logoanimation  pad log" src="<?php echo base_url()?>assets/uploads/<?php echo $cats->category_image_title?>"  >
+                    </div>
+
+
+                    <div class="row ">
+                      <!-- <div class="col-sm-6   "  ><a href="<?php echo base_url(); ?>lessons/lesson_numbers"> <img class="card-img-top img-fluid zoom btn center"   src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_lesson.png" alt="Card image cap"></a> </div> -->
+
+                           <div class="col-sm-6   "  ><a href="<?php echo base_url(); ?>lesson/<?php echo $id?> "> <img class="card-img-top img-fluid zoom btn center"   src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_lesson.png" alt="Card image cap"></a> </div>
+                           <div class="col-sm-6  " ><a href="<?php echo base_url(); ?>levels/<?php echo $id?> "><img class="card-img-top img-fluid zoom btn center"   src="<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/btn_quiz.png" alt="Card image cap"></a> </div>
+                   </div>
+
+
+
+                   <?php
+                   }else {
+                   ?>
+                     <h1 class="text-center">
+                   <?php
+                     echo 'No LESSON found...';
+                   }?>
+                     </h1>
+
+
+
                         </div>
                 </div>
 

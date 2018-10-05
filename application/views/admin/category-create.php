@@ -45,46 +45,44 @@ if($is_edit == true){
                 <div class="form-group form-md-line-input">
                     <input type="text" class="form-control" id="form_control_1" name="<?php echo $name?>" value="<?php echo $value?>" required>
                     <label for="form_control_1">Category name</label>
-                    <span class="help-block">Some help goes here...</span>
                 </div>
             </div>
 
+						<!--CATEGORY IMAGE  -->
+						  <div class="form-group form-md-line-input row">
+								<label for="form_control_1" class="col-sm-2 col-form-label">Category  Image</label>
+
+								<div class="col-md-9  ">
+									<input type="text" class="form-control input-inline input-medium img1" name="<?php echo $name_img?>" value="<?php echo $image?>" required />
+									<span class="help-inline"><a class="select_img" id="1"  data-toggle="modal" href="#static">Upload or select image.</a></span>
 
 
+						    </div>
+						  </div>
 
-														<div id="field0" class="form-body">
-																<!-- Text input-->
+							<!--CATEGORY TITLE  -->
+							<div class="form-group row form-md-line-input">
+								<label for="form_control_1" class="col-sm-2 col-form-label">Category Title Image</label>
 
-																<div class="form-group">
-																		<div class="col-md-9">
-																				<input type="text" class="form-control input-inline input-medium img1" name="<?php echo $name_img?>" value="<?php echo $image?>" required />
+								<div class="col-md-9  ">
 
-																				<span class="help-inline"><a class="select_img" id="1"  data-toggle="modal" href="#static">Upload or select image.</a></span>
-																		</div>
-																</div>
+								 <input type="text" class="form-control input-inline input-medium img2 "  name="<?php echo $category_image_title?>" value="<?php echo $cat_image?>" required>
+								 <span class="help-inline"><a class="select_img" id="2"  data-toggle="modal" href="#static">Upload or select image.</a></span>
+																 <!-- <span class="help-block">Some help goes here...</span> -->
 
-														</div>
+						    </div>
+						  </div>
 
+							<!--TEMPLATE NUMBER  -->
+							<div class="form-group row form-md-line-input">
+								<label for="form_control_1" class="col-sm-2 col-form-label">TEMPLATE #</label>
 
-														<div class="form-group">
-																 <div class="col-md-9">
-																	 <label for="form_control_1">Category Title Image</label>
+								<div class="col-md-1  ">
+									<input type="text" class="form-control" id="form_control_1" name="<?php echo $template_num?>" value="<?php echo $template?>" required>
+									<!-- <span class="help-block">input template# here...</span> -->
 
-																		 <input type="text" class="form-control input-inline input-medium img2 "  name="<?php echo $category_image_title?>" value="<?php echo $cat_image?>" required>
-																		 <span class="help-inline"><a class="select_img" id="2"  data-toggle="modal" href="#static">Upload or select image.</a></span>
-																		 <!-- <span class="help-block">Some help goes here...</span> -->
-
-																 </div>
-															 </div>
-
-
-															 <div class="col-md-6">
-															 		<div class="form-group form-md-line-input">
-															 				<input type="text" class="form-control" id="form_control_1" name="<?php echo $template_num?>" value="<?php echo $template?>" required>
-															 				<label for="form_control_1">TEMPLATE #</label>
-															 				<span class="help-block">Some help goes here...</span>
-															 		</div>
-															  </div>
+								</div>
+							</div>
 
 
 
