@@ -20,7 +20,7 @@
           						if($category->num_rows() > 0){
           							foreach($category->result() as $cat){
           						?>
-                                  	<option value="<?php echo $cat->id?>"><?php echo $cat->category_name?></option>
+                            <option value="<?php echo $cat->id?>"><?php echo $cat->category_name?></option>
                                   <?php
           							}
           						}
@@ -112,7 +112,7 @@
                                  <div class="col-md-4">
                                      <div class="form-group form-md-line-input">
                                          <input type="text" class="form-control " id="form_control_1" name="lessonEx[]" value="<?php //echo $value?>">
-                                   
+
 
                                          <label for="form_control_1">Example Name</label> <br>
                                          <span class="help-block">Some help goes here...</span>

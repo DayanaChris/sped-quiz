@@ -55,6 +55,14 @@ class Query_model extends CI_Model
 
 
 
+			// WORKING QUERY FOR DISPLAY LESSON IMAGES
+		// SELECT * from `level`
+		//  join quiz on level.id = quiz.level_id
+		//  where level.id=1 and quiz.category_id=1
+
+
+
+
 	public function get_answer($id){
 		$query = $this->db->select()
 									 		 ->from('quiz_image')

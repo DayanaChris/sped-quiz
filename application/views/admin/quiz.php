@@ -1,6 +1,6 @@
 <?php $this->load->view('admin/inc/top');?>
 
-<div class="col-md-6">
+    <div class="col-md-6">
         <div class="btn-group">
             <a href="<?php echo base_url()?>add-question" class="btn sbold green"> Add New Question
                 <i class="fa fa-plus"></i>
@@ -17,7 +17,6 @@
       <th>Question</th>
       <th>Category</th>
       <th>Level</th>
-      <th>Alloted Time</th>
       <th>Background Color</th>
       <th>Template #</th>
 
@@ -32,7 +31,6 @@
       <td><?php echo $info->question?></td>
       <td><?php echo $info->category_name?></td>
       <td><?php echo $info->level_name?></td>
-      <td><?php echo $info->time?></td>
       <td><?php echo $info->background?></td>
       <td><?php echo $info->template_num?></td>
 
@@ -45,6 +43,7 @@
     </tr>
     <?php endforeach;?>
   </tbody>
+
 </table>
 <?php }else{
 echo 'No question found...';

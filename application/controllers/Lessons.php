@@ -122,28 +122,23 @@
 
     public function lesson($id){
 
-    if (!$this->ion_auth->logged_in())
-    {
-      // redirect them to the login page
-      redirect('auth/login', 'refresh');
-    }
-    else {
-
-
-      $data = array(
-        'id' => $id,
-        // 'template_num' => $this->query->get_template(),
-        'lesimg' => $this->lesson->display_lesson_image($id),
-        'images' => $this->lesson->display_lesson_image($id),
-        'example' => $this->lesson->display_lesson_example_image(),
-
-
-      );
-      $this->load->view('templates/temp_alphabets');
-      $this->load->view('lessons/lesson_alphabets',$data);
-    }
-  }
-
+        if (!$this->ion_auth->logged_in())
+        {
+          // redirect them to the login page
+          redirect('auth/login', 'refresh');
+        }
+        else {
+          $data = array(
+            'id' => $id,
+            // 'template_num' => $this->query->get_template(),
+            'lesimg' => $this->lesson->display_lesson_image($id),
+            'images' => $this->lesson->display_lesson_image($id),
+            'example' => $this->lesson->display_lesson_example_image(),
+          );
+          $this->load->view('templates/temp_alphabets');
+          $this->load->view('lessons/lesson_alphabets',$data);
+        }
+      }
 
     public function videos_menu(){
       $this->load->view('videos/videos_menu' );
@@ -158,8 +153,6 @@
       $this->load->view('videos/singalong' );
     }
 
-
-
     public function landing_page(){
       $this->load->view('pages/landing_page');
     }
@@ -169,14 +162,9 @@
     public function contact(){
       $this->load->view('pages/contact');
     }
-
-
-
-
-
-        public function aasample(){
-          $this->load->view('lessons/aasample');
-        }
+    public function aasample(){
+      $this->load->view('lessons/aasample');
+    }
 
 
     public function submenu_colors(){
@@ -189,16 +177,10 @@
       $this->load->view('lessons/submenu_expressions');
     }
 
-
-
-
     public function submenu_shapes(){
       $this->load->view('templates/temp_lessons');
       $this->load->view('lessons/submenu_shapes');
     }
-
-
-
 
     // lesson routes
         public function lesson_alphabets(){
@@ -225,27 +207,6 @@
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public function lesson_vowels(){
           $this->load->view('templates/temp_alphabets');
 
@@ -265,30 +226,6 @@
         public function lesson_colors(){
           $this->load->view('lessons/lesson_colors');
         }
-              public function color_black(){
-                $this->load->view('templates/temp_alphabets');
-                $this->load->view('lessons/color_black');
-              }
-              public function color_blue(){
-                $this->load->view('templates/temp_alphabets');
-                $this->load->view('lessons/color_blue');
-              }
-              public function color_brown(){
-                $this->load->view('templates/temp_alphabets');
-                $this->load->view('lessons/color_brown');
-              }
-              public function color_green(){
-                $this->load->view('templates/temp_alphabets');
-                $this->load->view('lessons/color_green');
-              }
-              public function color_orange(){
-                $this->load->view('templates/temp_alphabets');
-                $this->load->view('lessons/color_orange');
-              }
-              public function color_pink(){
-                $this->load->view('templates/temp_alphabets');
-                $this->load->view('lessons/color_pink');
-              }
 
         public function lesson_expressions(){
           $this->load->view('templates/temp_alphabets');
@@ -339,13 +276,6 @@
 
 
 
-
-
-
-
-
-
-
     // CRUD
 
     public function create()
@@ -359,84 +289,64 @@
 
     public function post()
   	{
-      if(isset($_POST['delete_lesson'])){
-        $this->lesson->delete_lesson($_POST['delete_lesson']);
-      }
-  		if(isset($_POST['cat_id'])){
-  			$attr = array(
-          'user_id' => $this->user_id,
-  				'cat_id' => $_POST['cat_id'],
+          if(isset($_POST['delete_lesson'])){
+            $this->lesson->delete_lesson($_POST['delete_lesson']);
+          }
+      		if(isset($_POST['cat_id'])){
+        			$attr = array(
+                'user_id' => $this->user_id,
+        				'cat_id' => $_POST['cat_id'],
 
-  				// 'img_id' => $_POST['img_id'],
+        				// 'img_id' => $_POST['img_id'],
 
-  			);
-  			$this->db->insert('lesson', $attr);
-  			$lastid = $this->db->insert_id();
-
-
-
-        // INSERT TO QUIZ IMAGE
-        // GET THE CORRECT ANSWER
-  			// $answr = $_POST['answer'][0];
+        			);
+        			$this->db->insert('lesson', $attr);
+        			$lastid = $this->db->insert_id();
 
 
 
-  			foreach($_POST['imgid'] as $img){
-  			// INSERT TO LessonImage TABLE
-  				//if($count == )
-  				$attr = array(
-  					'lesson_id' => $lastid,
-  					'img_id' => $img,
-  					'lesson_name' => $_POST['lesson_name']
-  				);
-  				// $counts++;
-          $this->db->insert('lesson_image', $attr);
-
-          $lastid_lesson = $this->db->insert_id();
-
-
-        }
-
-        //
-        // foreach( $codes as $index => $code ) {
-        //   print $code . 'is your Id code and ' . $names[$index] . 'is your name';
-        // }
-
-        $imgEx= $_POST['imgEx'];
-        $lessonEx= $_POST['lessonEx'];
-
-// print_r($imgEx);
-// print_r($lessonEx);
-// exit();
-        // INSERT TO LESSON EXAMPLE
-        foreach($imgEx as $index=> $imgE){
-          $attr_ex = array(
-            'lesson_id' => $lastid,
-            'img_id' => $imgE,
-            'lesson_example_name' => $lessonEx[$index],
-          );
-
-
-        $this->db->insert('lesson_example', $attr_ex);
-        $lastid_lesson_ex = $this->db->insert_id();
-
-
-        }
+              // INSERT TO QUIZ IMAGE
+              // GET THE CORRECT ANSWER
+        			// $answr = $_POST['answer'][0];
 
 
 
+        			foreach($_POST['imgid'] as $img){
+        			// INSERT TO LessonImage TABLE
+        				//if($count == )
+        				$attr = array(
+        					'lesson_id' => $lastid,
+        					'img_id' => $img,
+        					'lesson_name' => $_POST['lesson_name']
+        				);
+        				// $counts++;
+                $this->db->insert('lesson_image', $attr);
+                $lastid_lesson = $this->db->insert_id();
+              }
+              $imgEx= $_POST['imgEx'];
+              $lessonEx= $_POST['lessonEx'];
+      // print_r($imgEx);
+      // print_r($lessonEx);
+      // exit();
+              // INSERT TO LESSON EXAMPLE
+              foreach($imgEx as $index=> $imgE){
+                $attr_ex = array(
+                  'lesson_id' => $lastid,
+                  'img_id' => $imgE,
+                  'lesson_example_name' => $lessonEx[$index],
+                );
+                $this->db->insert('lesson_example', $attr_ex);
+                $lastid_lesson_ex = $this->db->insert_id();
+                }
+              $attrs = array(
+                 'lesson_image_id' =>$lastid_lesson,
+                 'lesson_example_id' =>$lastid_lesson_ex
+               );
+               $this->db->insert('lesson_manager', $attrs);
 
 
-
-        $attrs = array(
-           'lesson_image_id' =>$lastid_lesson,
-           'lesson_example_id' =>$lastid_lesson_ex
-         );
-         $this->db->insert('lesson_manager', $attrs);
-
-
-  			redirect(base_url().'quiz');
-  		}
+        			redirect(base_url().'quiz');
+  		      }
 
 
   	}
@@ -461,109 +371,109 @@
 
     public function upload()
     {
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-      header("Cache-Control: no-store, no-cache, must-revalidate");
-      header("Cache-Control: post-check=0, pre-check=0", false);
-      header("Pragma: no-cache");
-      @set_time_limit(5 * 60);
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        @set_time_limit(5 * 60);
 
-      $path_parts = pathinfo($_FILES["file"]["name"]);
-      $extension = $path_parts['extension'];
-      $location = 'files';
-      if($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'gif'){
-        $location = 'images';
-      }else if($extension == 'mp4'){
-            $location = 'videos';
+        $path_parts = pathinfo($_FILES["file"]["name"]);
+        $extension = $path_parts['extension'];
+        $location = 'files';
+          if($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'gif'){
+            $location = 'images';
+          }else if($extension == 'mp4'){
+                $location = 'videos';
+              }
+
+
+        $targetDir = 'assets/uploads';
+        $cleanupTargetDir = true; // Remove old files
+        $maxFileAge = 5 * 3600; // Temp file age in seconds
+        if (!file_exists($targetDir)) {
+          @mkdir($targetDir);
+        }
+
+        $fileName = date('djNBis').'.'.$extension;
+        $original_filename = $_FILES["file"]["name"];
+        $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+        $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
+        $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
+        $save = '';
+        $origname = '';
+        // Remove old temp files
+        if ($cleanupTargetDir) {
+          if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
+            die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
           }
-
-
-      $targetDir = 'assets/uploads';
-      $cleanupTargetDir = true; // Remove old files
-      $maxFileAge = 5 * 3600; // Temp file age in seconds
-      if (!file_exists($targetDir)) {
-        @mkdir($targetDir);
-      }
-
-      $fileName = date('djNBis').'.'.$extension;
-      $original_filename = $_FILES["file"]["name"];
-      $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-      $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
-      $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-      $save = '';
-      $origname = '';
-      // Remove old temp files
-      if ($cleanupTargetDir) {
-        if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
-          die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
-        }
-        while (($file = readdir($dir)) !== false) {
-          $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
-          if ($tmpfilePath == "{$filePath}.part") {
-            continue;
+          while (($file = readdir($dir)) !== false) {
+            $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
+            if ($tmpfilePath == "{$filePath}.part") {
+              continue;
+            }
+            if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
+              @unlink($tmpfilePath);
+            }
           }
-          if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
-            @unlink($tmpfilePath);
+          $save = $fileName;
+          $origname = $original_filename;
+
+          $attribute = array(
+            'user_id' => $this->user_id,
+            'img_name' => $fileName,
+            'original_name' => $original_filename,
+          );
+          $this->db->insert('images',$attribute);
+
+
+      // video attributes
+          $attributes = array(
+            'user_id' => $this->user_id,
+            'vid_name' => $fileName,
+            'original_name' => $original_filename,
+          );
+          $this->db->insert('videos',$attributes);
+          sleep(1);
+
+          closedir($dir);
+        }
+        if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
+          die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
+        }
+        if (!empty($_FILES)) {
+          if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
+            die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
+          }
+          if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
+            die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+          }
+        } else {
+          if (!$in = @fopen("php://input", "rb")) {
+            die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
           }
         }
-        $save = $fileName;
-        $origname = $original_filename;
-
-        $attribute = array(
-          'user_id' => $this->user_id,
-          'img_name' => $fileName,
-          'original_name' => $original_filename,
-        );
-        $this->db->insert('images',$attribute);
-
-
-    // video attributes
-        $attributes = array(
-          'user_id' => $this->user_id,
-          'vid_name' => $fileName,
-          'original_name' => $original_filename,
-        );
-        $this->db->insert('videos',$attributes);
-        sleep(1);
-
-        closedir($dir);
-      }
-      if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
-        die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
-      }
-      if (!empty($_FILES)) {
-        if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
-          die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
+        while ($buff = fread($in, 4096)) {
+          fwrite($out, $buff);
         }
-        if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
-          die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+        @fclose($out);
+        @fclose($in);
+        // Check if file has been uploaded
+        if (!$chunks || $chunk == $chunks - 1) {
+          rename("{$filePath}.part", $filePath);
         }
-      } else {
-        if (!$in = @fopen("php://input", "rb")) {
-          die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+        if($jobid != NULL){
+          $attay = array(
+            'rename_file_name' => $save,
+            'orig_file_name' => $origname,
+          );
+        }else{
+          $attay = array(
+            'rename_file_name' => $save.',',
+            'orig_file_name' => $origname.'-_-',
+          );
         }
-      }
-      while ($buff = fread($in, 4096)) {
-        fwrite($out, $buff);
-      }
-      @fclose($out);
-      @fclose($in);
-      // Check if file has been uploaded
-      if (!$chunks || $chunk == $chunks - 1) {
-        rename("{$filePath}.part", $filePath);
-      }
-      if($jobid != NULL){
-        $attay = array(
-          'rename_file_name' => $save,
-          'orig_file_name' => $origname,
-        );
-      }else{
-        $attay = array(
-          'rename_file_name' => $save.',',
-          'orig_file_name' => $origname.'-_-',
-        );
-      }
-      die(json_encode($attay));
+        die(json_encode($attay));
     }
 
 

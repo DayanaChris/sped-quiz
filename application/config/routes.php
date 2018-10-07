@@ -14,6 +14,9 @@ $route = array(
 
 	'results' 							=>  'results/result_page',
 
+	'tally' 							=>  'results/tally',
+
+
 
 
 
@@ -30,6 +33,7 @@ $route = array(
 
 
 	'edit-quiz/(:num)' 	 		=> 'quiz/edit/$1',
+
 	'category_menu' 				=>  'lessons/category_menu',
 
 	'lesson' 								=>  'lessons/lesson_menu',

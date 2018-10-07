@@ -16,6 +16,9 @@
       <th></th>
       <th>Category Name</th>
       <th>Category Image</th>
+      <th>Category Submenu Title</th>
+      <th>Template #</th>
+
 
       <th>Option</th>
     </tr>
@@ -29,6 +32,12 @@
         <img src="<?php echo base_url().'assets/uploads/'.$cat->category_image ?>" class="img-responsive" style="width:100px;">
 
       </td>
+      <td><?php echo $cat->category_image_title?>
+        <img src="<?php echo base_url().'assets/uploads/'.$cat->category_image_title ?>" class="img-responsive" style="width:100px;">
+
+      </td>
+      <td><?php echo $cat->template_num?></td>
+
 
       <td>
       <a href="<?php echo base_url()?>edit-category/<?php echo $cat->id?>"><span class="fa fa-edit"></span></a> |

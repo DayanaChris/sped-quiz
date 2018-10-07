@@ -56,6 +56,7 @@
                        font-weight: 100;
                        height: 100vh;
                        margin: 0;
+
                    }
                    .extra {
                       color: inherit;
@@ -75,6 +76,10 @@
                   .category_menu_bg{background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/blue.png"); }
 
                    /* newly added */
+                   .tally_bg{ background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/tally/back1jpg.jpg"); }
+
+                   .result_bg{ background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/Evaluation/background_jpg.png"); }
+
                    .Alphabet_bg{ background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/sub_menu/background.jpg"); }
                    .letter_A{   background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/Lesson/Alphabets/_Lessons/A/background1.jpg"); }
                    .letter_B{   background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/Lesson/Alphabets/_Lessons/B/background1.jpg"); }

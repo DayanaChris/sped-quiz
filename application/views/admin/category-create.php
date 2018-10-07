@@ -24,10 +24,6 @@ if($is_edit == true){
 		$template_num = 'template_num';
 		$template = $cat->$template_num;
 
-
-
-
-
 	}
 }
 ?>
@@ -45,6 +41,7 @@ if($is_edit == true){
                 <div class="form-group form-md-line-input">
                     <input type="text" class="form-control" id="form_control_1" name="<?php echo $name?>" value="<?php echo $value?>" required>
                     <label for="form_control_1">Category name</label>
+
                 </div>
             </div>
 

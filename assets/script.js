@@ -1,12 +1,31 @@
 var start_time="";
 var end_time="";
 var total_time=0;
+var accuracy=0;
+var average_speed=0;
+var final_score=0;
+
+
+var temp_attempt=0;
+
+
+var wrong=0;
+
+
+var total_wrong=0;
+
+
+
 
 
 $(document).ready(function() {
 	"use strict";
 
 	set_start_time();
+	$(".bg").css("background-image", "url('../../assets/images/SPEDEMY/Evaluation/background_jpg.jpg')");
+	// $('.modal-body').html("<img src=\"../../assets/images/wrong.png\">");
+
+
 	var url = $('.base_url').html();
 	var loader = 'Loading';
 	$('.delete_category').click(function(e){
@@ -284,94 +303,141 @@ $(document).ready(function() {
 
 
 
-
 	$('.clickimage').click(function(){
 		var answer = $(this).attr('data-answer');
 		var question = $(this).attr('data-id');
 		var question_number=$(this).attr('question-number');
+		// console.log(question_number);
 		$.ajax({
 			url : url+"quiz/c_answer",
 			type : 'POST',
 			data : {
 				'check_question': answer
 			},
-
-
-
 			success : function(response) {
 				console.log(response);
-				var score=parseInt($('#score').html(),10);
-				var attempt=parseInt($('#attempt').html(),10);
+				var score=parseInt($('#score').val(),10);
+				var attempts=parseInt($('#attempts').val(),10);
 
-				if(score==""){
-					score=0;
+						if(score==""){
+							score=0;
+						}
+						if(attempts==""){
+							attempts=0;
+						}
 
-				}
+						if(parseInt(question_number)==4){
+							set_end_time();
+							get_total_time();
+							console.log("total time"+total_time);
 
-				if(attempt==""){
-					attempt=0;
+							// display class
+							$('.result_div').css('display','block');
 
-				}
+						}
 
+						// if(attemp==0){
+						//
+						// }
 
-
-
-
-
-
-
-
-
-
-				// IF CORRECT ANSWER
-				if(response.includes("great")){
-
-					var current='#'+question_number;
-					var next='#'+(parseInt(question_number,10)+1);
-					console.log(current);
-					console.log(next);
-
-					if(parseInt(question_number)>=4){
-						set_end_time();
-
-					 	get_total_time();
-						console.log("total time"+total_time);
-
-						$('#total_time').css('display:block;');
-
-					}
-
-
-					// $(id).css('display:none;');
-					$(current).css('display:none;');
-					$(next).css('display:block;');
-					$(current).hide();
-					$(next).show();
-					$('.modal-body').html(response);
-
-					score++;
-					console.log("SCORE "+score);
-
-					$('#score').html(score);
+						// IF CORRECT ANSWER display correct modal
+							if(response.includes("great")){
+								var current='#'+question_number;
+								var next='#'+(parseInt(question_number,10)+1);
+									// $(id).css('display:none;');
+									$(current).css('display:none;');
+									$(next).css('display:block;');
+									$(current).hide();
+									$(next).show();
+									// DISPLAY MODAL
+									$('.modal-body').html(response);
+									score++;
+									console.log("SCORE "+score);
+									$('#score').val(score);
+									wrong=0;
+									attempts=0;
 
 
+						}else if(!response.includes("great") ){
+							$('.modal-body').html("<img src=\"../../assets/images/wrong1.png\">");
+							attempts++;
 
-			}else if(!response.includes("great")){
-				// display to
-				$('.modal-body').html("<img src=\"../../assets/images/wrong.png\">");
+							if(wrong==0){
+								temp_attempt++;
+								wrong++;
+								total_wrong++;
 
-				attempt++;
-				console.log("ATTEMPT",attempt);
-				$('#attempt').html(attempt);
+								console.log(total_wrong);
+								$('#total_wrong').val(total_wrong);
+
+							}else{
+
+							}
+
+
+
+							console.log("ATTEMPT",attempts);
+							$('#attempts').val(attempts);
+
+						}
+
+						average_speed= (total_time/5);
+						$('#average_speed').val(average_speed+" /pq");
+
+						final_score= score-total_wrong;
+						$('#final_score').val(final_score);
+
+
+						// change 5 to 15
+						accuracy= (final_score/5) *100;
+						$('#accuracy').val(accuracy);
+
+
+
+				},
+
+		}); //END  AJAX
+
+	});//END CLICK IMAGE
+
+
+
+
+
+	$('.clickLevel').click(function(){
+		var level_number=$(this).attr('level-number');
+
+
+			if(parseInt(level_number)==1){
+				// display class
+				$('.result_div').css('display','block');
+				$('.mod_div').css('display','none');
+				$('.dif_div').css('display','none');
+
 			}
-		},
-		});
-	});
+			else if(parseInt(level_number)==2){
+				// display class
+				$('.result_div').css('display','none');
+				$('.mod_div').css('display','block');
+				$('.dif_div').css('display','none');
+
+
+			}
+		else 	if(parseInt(level_number)==3){
+				// display class
+				$('.result_div').css('display','none');
+				$('.mod_div').css('display','none');
+
+				$('.dif_div').css('display','block');
+
+			}
+
+	});//END CLICK IMAGE
+
 
 
 
 });
-
 
 function set_start_time(){
 	start_time= new Date();
@@ -379,7 +445,6 @@ function set_start_time(){
 
 
 }
-
 
 function set_end_time(){
 	end_time= new Date();
@@ -389,16 +454,15 @@ function set_end_time(){
 
 }
 
-
 function get_total_time(){
-
 	  total_time = new Date(end_time - start_time);
 	  total_time= total_time/1000;
-
 	  console.log("total time"+total_time);
-	  $("#total_time").html(total_time);
+	  $("#total_time").val(total_time);
 
 }
+
+
 
 
 // END OF SCRIPT

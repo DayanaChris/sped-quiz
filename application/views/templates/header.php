@@ -61,12 +61,11 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animate.css">
 
 
-
-
-
        </head>
 
    <style>
+
+              .tally_bg{ background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/tally/back1jpg.jpg"); }
 
 
               .about_bg{   background-image: url("<?php echo site_url(); ?>assets/images/SPEDEMY/Contactpage/backg1png.png"); }

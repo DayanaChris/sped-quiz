@@ -50,8 +50,6 @@ class Quiz extends CI_Controller {
 	// }
 
 
-
-
 	public function question($category_id, $level_id)
 	{
 		$temp1= $this->query->questioner($level_id,$category_id);
@@ -60,10 +58,12 @@ class Quiz extends CI_Controller {
 		// $tempp = $this->query->get_template();
 
 		$data = array(
+			'level_id' => $level_id,
+			// 'id' =>$level_id,$category_id,
 			'template_num' => $this->query->get_template(),
 			'question' => $this->query->questioner($level_id,$category_id),
 			'question_image' => $this->query->questioner($level_id,$category_id),
-
+			'category_id' => $category_id,
 		);
 
 		// if('template_num' == 1){
@@ -96,7 +96,6 @@ class Quiz extends CI_Controller {
 
 	public function post()
 	{
-
 		// IF THE ANSWER IS CORRECT IT WILL DISPLAY THE MODAL
 		if(isset($_POST['check_question'])){
 			if($_POST['check_question'] == 0){
@@ -122,8 +121,7 @@ class Quiz extends CI_Controller {
 
 				'level_id' => $_POST['level_id'],
 
-				'user_id' => $this->user_id,
-				'time' => $_POST['timepic']
+				'user_id' => $this->user_id
 			);
 			$this->db->insert('quiz', $attr);
 			$lastid = $this->db->insert_id();
@@ -190,7 +188,6 @@ class Quiz extends CI_Controller {
 			$this->db->where('id', $this->input->post('id'));
 			return $this->db->update('lesson', $data);
 
-
 			// default value, pag ang i click sa radio button mao to ang correct answer then ma change ang value to 1
 			$count = 0;
 			$answr = $_POST['answer'][0];
@@ -235,7 +232,7 @@ class Quiz extends CI_Controller {
 			// IF THE ANSWER IS CORRECT IT WILL DISPLAY THE MODAL
 			if(isset($_POST['check_question'])){
 				if($_POST['check_question'] == 0){
-						echo 'error';
+						// echo 'error';
 				}else{
 						$this->load->view('answer');
 
