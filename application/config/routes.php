@@ -5,12 +5,16 @@ $route = array(
 	'404_override' 					=> '',
 	'translate_uri_dashes' 	=> FALSE,
 	'login' 								=> 'auth/login',
+	'register' 								=> 'auth/register',
+
 	'user'									=> 'auth',
-	'landing_page'					=> 'lessons/landing_page',
-	'about'									=> 'lessons/about',
-	'contact'								=> 'lessons/contact',
-	'levels/(:num)'					=> 'pages/levels/$1',
-	'sing-a-long'						=> 'pages/sing_vid_menu',
+	// 'quiz'									=> 'quiz',
+
+	'landing_page'					=> 'pages/landing_page',
+	'about'									=> 'pages/about',
+	'contact'								=> 'pages/contact',
+	'levels/(:num)'					=> 'lessons/levels/$1',
+	'sing-a-long'						=> 'lessons/sing_vid_menu',
 
 	'results' 							=>  'results/result_page',
 
@@ -23,16 +27,20 @@ $route = array(
 	'add-category' 					=> 'category/create',
 	'add-level' 						=> 'level/create',
 
+	'add-question' 					=> 'question/create',
+
 	'add-question' 					=> 'quiz/create',
 	'add-lesson' 						=> 'lessons/create',
-
-
-
 	'edit-category/(:num)' 	=> 'category/edit/$1',
 	'edit-level/(:num)' 		=> 'level/edit/$1',
 
 
-	'edit-quiz/(:num)' 	 		=> 'quiz/edit/$1',
+	// 'edit-quiz/(:num)' 	 		=> 'quiz/edit/$1',
+
+	// 'edit-quiz/(:num)' 			=> 'question/edit/$1',
+
+	'quiz/edit_quiz/(:num)' 			=> 'auth/edit_quiz/$1',
+
 
 	'category_menu' 				=>  'lessons/category_menu',
 

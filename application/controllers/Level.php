@@ -9,7 +9,7 @@ class Level extends CI_Controller {
 			redirect(base_url().'login', 'refresh');
 		}
 		if(!$this->ion_auth->is_admin()){
-			redirect(base_url().'dashboard', 'refresh');
+			redirect(base_url().'landing_page', 'refresh');
 		}
 		$this->user_id = $this->session->userdata('user_id');
 		$group = $this->ion_auth->get_users_groups($this->user_id)->result();
@@ -37,7 +37,7 @@ class Level extends CI_Controller {
 
 
 			$data = array(
-				'level' => $this->db->order_by('id', 'asc')->get_where('level')
+				'level' => $this->db->order_by('id')->get_where('level')
 			);
 			$this->load->view('admin/level',$data);
 

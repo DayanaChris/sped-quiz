@@ -8,9 +8,7 @@
   		if (!$this->ion_auth->logged_in() ){
   			redirect(base_url().'login', 'refresh');
   		}
-  		if(!$this->ion_auth->is_admin()){
-  			redirect(base_url().'dashboard', 'refresh');
-  		}
+  	 
   		$this->user_id = $this->session->userdata('user_id');
   		$group = $this->ion_auth->get_users_groups($this->user_id)->result();
   		$this->group_id = $group[0]->id;

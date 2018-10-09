@@ -7,9 +7,7 @@
   		if (!$this->ion_auth->logged_in() ){
   			redirect(base_url().'login', 'refresh');
   		}
-  		if(!$this->ion_auth->is_admin()){
-  			redirect(base_url().'dashboard', 'refresh');
-  		}
+
   		$this->user_id = $this->session->userdata('user_id');
   		$group = $this->ion_auth->get_users_groups($this->user_id)->result();
   		$this->group_id = $group[0]->id;
@@ -44,6 +42,40 @@
     		$this->load->view('admin/lesson',$data);
   		}
   	}
+
+
+    public function lesson_example($id,$lesson_name){
+
+      $data= array(
+        'ids' => $this->lesson->display_lesson_example_images_all($id),
+
+        'id' => $this->lesson->display_lesson_example_images($id),
+        'lesson_name' => $lesson_name,
+
+        // 'id' => $id,
+        // 'template_num' => $this->query->get_template(),
+        'lesimg' => $this->lesson->display_lesson_image($id),
+        'images' => $this->lesson->display_lesson_image($id),
+        'example' => $this->lesson->display_lesson_example_image(),
+
+      );
+
+      // if($data->num_rows>)
+        if($data['id']->num_rows() > 0){
+          $value = $data['id']->row();
+
+        // echo($value->id);
+        // $this->load->view('answer');
+        // $this->load->view('lessons/modal_lesson_example');
+        $this->load->view('lessons/modal_lesson_example', $data);
+
+        // echo $data['id'];
+      }else{
+        echo "-1";
+      }
+
+      }
+
 
 
 
@@ -134,11 +166,35 @@
             'lesimg' => $this->lesson->display_lesson_image($id),
             'images' => $this->lesson->display_lesson_image($id),
             'example' => $this->lesson->display_lesson_example_image(),
+
           );
           $this->load->view('templates/temp_alphabets');
           $this->load->view('lessons/lesson_alphabets',$data);
+          // $this->load->view('lessons/modal_lesson_example');
+
         }
       }
+
+      // lesson routes
+          public function lesson_alphabets(){
+                  if (!$this->ion_auth->logged_in())
+              		{
+              			// redirect them to the login page
+                    redirect('auth/login', 'refresh');
+              		}
+                  else {
+
+
+                    $data = array(
+                      'template_num' => $this->query->get_template(),
+                      'lesimg' => $this->lesson->lessons_display($cat),
+                      'question_image' => $this->lesson->lessons_display($cat),
+
+                    );
+                    $this->load->view('templates/temp_alphabets');
+                    $this->load->view('lessons/lesson_alphabets',$data);
+                  }
+          }
 
     public function videos_menu(){
       $this->load->view('videos/videos_menu' );
@@ -152,15 +208,18 @@
     public function singalong(){
       $this->load->view('videos/singalong' );
     }
+    public function levels($id){
+      $data = array(
+        'id' => $id,
+        'level' => $this->db->get_where('level'),
+        'category_id' => $id,
+      );
+      $this->load->view('templates/temp_lessons');
+      $this->load->view('levels',$data);
+    }
 
-    public function landing_page(){
-      $this->load->view('pages/landing_page');
-    }
-    public function about(){
-      $this->load->view('pages/about');
-    }
-    public function contact(){
-      $this->load->view('pages/contact');
+    public function sing_vid_menu(){
+      $this->load->view('sing_vid_menu');
     }
     public function aasample(){
       $this->load->view('lessons/aasample');
@@ -182,30 +241,7 @@
       $this->load->view('lessons/submenu_shapes');
     }
 
-    // lesson routes
-        public function lesson_alphabets(){
 
-
-                if (!$this->ion_auth->logged_in())
-            		{
-            			// redirect them to the login page
-                  redirect('auth/login', 'refresh');
-            		}
-                else {
-
-
-                  $data = array(
-                    'template_num' => $this->query->get_template(),
-                    'lesimg' => $this->lesson->lessons_display($cat),
-                    'question_image' => $this->lesson->lessons_display($cat),
-
-                  );
-                  $this->load->view('templates/temp_alphabets');
-                  $this->load->view('lessons/lesson_alphabets',$data);
-                }
-
-
-        }
 
         public function lesson_vowels(){
           $this->load->view('templates/temp_alphabets');
@@ -289,6 +325,8 @@
 
     public function post()
   	{
+
+
           if(isset($_POST['delete_lesson'])){
             $this->lesson->delete_lesson($_POST['delete_lesson']);
           }
@@ -323,7 +361,7 @@
                 $this->db->insert('lesson_image', $attr);
                 $lastid_lesson = $this->db->insert_id();
               }
-              $imgEx= $_POST['imgEx'];
+              $imgEx= $_POST['imgidEx'];
               $lessonEx= $_POST['lessonEx'];
       // print_r($imgEx);
       // print_r($lessonEx);

@@ -1,6 +1,9 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/**
+ * Class Auth
+ * @property Ion_auth|Ion_auth_model $ion_auth        The ION Auth spark
+ * @property CI_Form_validation      $form_validation The form validation library
+ */
 class Quiz extends CI_Controller {
 	public function __construct()
 	{
@@ -8,9 +11,7 @@ class Quiz extends CI_Controller {
 		if (!$this->ion_auth->logged_in() ){
 			redirect(base_url().'login', 'refresh');
 		}
-		if(!$this->ion_auth->is_admin()){
-			redirect(base_url().'dashboard', 'refresh');
-		}
+
 		$this->user_id = $this->session->userdata('user_id');
 		$group = $this->ion_auth->get_users_groups($this->user_id)->result();
 		$this->group_id = $group[0]->id;
@@ -66,16 +67,8 @@ class Quiz extends CI_Controller {
 			'category_id' => $category_id,
 		);
 
-		// if('template_num' == 1){
-
-		// if($this->query->get_template() == 1){
 		$this->load->view('templates/temp_lessons');
 		$this->load->view('question',$data);
-	// }else{
-	// 	$this->load->view('templates/temp_lessons');
-	// 	$this->load->view('quiz/mod1_quiz',$data);
-	// }
-
 
 
 
@@ -161,56 +154,117 @@ class Quiz extends CI_Controller {
 		}
 	}
 
-	public function edit()
+	public function edit_quiz($id)
 	{
+		$this->data['title'] = $this->lang->line('create_user_heading');
 
-		// IF THE ANSWER IS CORRECT IT WILL DISPLAY THE MODAL
-		if(isset($_POST['check_question'])){
-			if($_POST['check_question'] == 0){
-					echo 'error';
-			}else{
-					$this->load->view('answer');
-
-			}
+		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+		{
+			redirect('auth', 'refresh');
 		}
 
-		if(isset($_POST['question'])){
-			$attr = array(
-				'question' => $_POST['question'],
-				'category_id' => $_POST['category_id'],
-				'question_image' => $_POST['question_image'],
-				'background' => $_POST['background'],
-				'template_num' => $_POST['template_num'],
+		$tables = $this->config->item('tables', 'ion_auth');
+		$identity_column = $this->config->item('identity', 'ion_auth');
+		$this->data['identity_column'] = $identity_column;
 
-				'level_id' => $_POST['level_id'],
-				'time' => $_POST['timepic']
+		// validate form input
+		$this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'trim|required');
+		$this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'trim|required');
+		if ($identity_column !== 'email')
+		{
+			$this->form_validation->set_rules('identity', $this->lang->line('create_user_validation_identity_label'), 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+			$this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email');
+		}
+		else
+		{
+			$this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
+		}
+		$this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'trim');
+		$this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'trim');
+		$this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
+		$this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
+
+		if ($this->form_validation->run() === TRUE)
+		{
+			$email = strtolower($this->input->post('email'));
+			$identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
+			$password = $this->input->post('password');
+
+			$additional_data = array(
+				'first_name' => $this->input->post('first_name'),
+				'last_name' => $this->input->post('last_name'),
+				'company' => $this->input->post('company'),
+				'phone' => $this->input->post('phone'),
 			);
-			$this->db->where('id', $this->input->post('id'));
-			return $this->db->update('lesson', $data);
-
-			// default value, pag ang i click sa radio button mao to ang correct answer then ma change ang value to 1
-			$count = 0;
-			$answr = $_POST['answer'][0];
-			foreach($_POST['imgid'] as $img){
-				if($count == $answr){
-					$ans = 1;
-				}else{
-					$ans = 0;
-				}
-
-				$attr = array(
-					'quiz_id' => $lastid,
-					'img_id' => $img,
-					'is_correct' =>$ans
-				);
-
-				$count++;
-			$this->db->insert('quiz_image', $attr);
-			}
-
-			redirect(base_url().'quiz');
-
 		}
+		if ($this->form_validation->run() === TRUE && $this->ion_auth->register($identity, $password, $email, $additional_data))
+		{
+			// check to see if we are creating the user
+			// redirect them back to the admin page
+			$this->session->set_flashdata('message', $this->ion_auth->messages());
+			redirect("auth", 'refresh');
+		}
+		else
+		{
+			// display the create user form
+			// set the flash data error message if there is one
+			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+	$groups = $this->ion_auth->groups()->result_array();
+			$this->data['first_name'] = array(
+				'name' => 'first_name',
+				'id' => 'first_name',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('first_name'),
+			);
+			$this->data['last_name'] = array(
+				'name' => 'last_name',
+				'id' => 'last_name',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('last_name'),
+			);
+			$this->data['identity'] = array(
+				'name' => 'identity',
+				'id' => 'identity',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('identity'),
+			);
+			$this->data['email'] = array(
+				'name' => 'email',
+				'id' => 'email',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('email'),
+			);
+			$this->data['company'] = array(
+				'name' => 'company',
+				'id' => 'company',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('company'),
+			);
+			$this->data['phone'] = array(
+				'name' => 'phone',
+				'id' => 'phone',
+				'type' => 'text',
+				'value' => $this->form_validation->set_value('phone'),
+			);
+			$this->data['password'] = array(
+				'name' => 'password',
+				'id' => 'password',
+				'type' => 'password',
+				'value' => $this->form_validation->set_value('password'),
+			);
+			$this->data['password_confirm'] = array(
+				'name' => 'password_confirm',
+				'id' => 'password_confirm',
+				'type' => 'password',
+				'value' => $this->form_validation->set_value('password_confirm'),
+			);
+			$this->data['groups'] = $groups;
+		}
+		$this->load->view('auth/edit_quiz',$this->data);
+
+
+		// $this->_render_page( 'auth/edit_quiz');
+
 	}
 
 
